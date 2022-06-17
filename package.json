@@ -2,7 +2,7 @@
   "name": "to-do_list",
   "version": "1.0.0",
   "description": "\"To-Do List Project - The Odin Project\"",
-  "main": "index.js",
+  "main": "imports.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
