@@ -3,6 +3,7 @@
 body {
     font-family: 'Roboto';
     height: 100vh;
+    background-color: lightgrey;
 }
 
 .parentContainer {
@@ -20,8 +21,10 @@ body {
 .body {
     grid-area: 2 / 0 / 3 /0;
     display: grid;
+    gap: 16px;
     grid-template-columns: 285px 7fr;
     margin-bottom: 16px;
+
 }
 .sidebar {
     grid-area: 0 / 1 / 0 / 2;
@@ -43,4 +46,6 @@ body {
 .main {
     grid-area: 0 / 2 / 0 / 3;
     background-color: white;
+    border-radius: 16px;
+    margin-right: 16px;
 }

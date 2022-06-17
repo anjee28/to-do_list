@@ -53,11 +53,21 @@ newForm.addEventListener('submit', () => {
     const due = document.getElementById('due').value;
     const prior = document.getElementById('priority').value;    
     addNew(generateId(),title,desc,due,prior);
-    listsSorted = sort(lists);
-    test2.innerHTML = listsSorted[0].priorStr;
+    
+    listsSorted = lists.slice().sort((a, b) => {
+        return a.priority - b.priority;
+        });
+     
     newForm.reset();
     console.log(lists);
     console.log(listsSorted);
+
+    const main = document.getElementById('main');
+    const list = document.querySelectorAll(".listDiv").forEach(el => el.remove());
+
+    for(let i = 0; i < listsSorted.length; i++){
+        renderLists(lists[i].title, lists[i].desc, lists[i].due, lists[i].priorStr);
+    }
 })
 
 function addNew(id,title,desc,due,prior){
@@ -78,16 +88,27 @@ function addNew(id,title,desc,due,prior){
     console.log(prior);
     const newList = newTodo(id,title,desc,due,prior,priorStr,'0');
     newList.addToList();
-    test.innerHTML = lists[0].priorStr;
 
 }
 
-function sort(lists){
-    
-    const listsSorted = lists.slice().sort((a, b) => {
-        return a.priority - b.priority;
-    });
-    return(listsSorted)
+function renderLists(title,desc,due,priorStr){
+    const div = document.createElement('div');
+    const titleDom = document.createElement('h4');
+    const descDom = document.createElement('p');
+    const dueDom = document.createElement('p');
+    const priorStrDom = document.createElement('p');
+
+    main.appendChild(div);
+    div.appendChild(titleDom, descDom, dueDom, priorStrDom);
+    div.appendChild(descDom);
+    div.appendChild(dueDom);
+    div.appendChild(priorStrDom);
+
+    div.classList.add('listDiv');
+    titleDom.innerHTML = title;
+    descDom.innerHTML = desc;
+    dueDom.innerHTML = due;
+    priorStrDom.innerHTML = priorStr;
 }
 /*
 button.addEventListener('click', () => {
