@@ -63,10 +63,10 @@ newForm.addEventListener('submit', () => {
     console.log(listsSorted);
 
     const main = document.getElementById('main');
-    const list = document.querySelectorAll(".listDiv").forEach(el => el.remove());
+    document.querySelectorAll(".listDiv").forEach(el => el.remove());
 
     for(let i = 0; i < listsSorted.length; i++){
-        renderLists(lists[i].title, lists[i].desc, lists[i].due, lists[i].priorStr);
+        renderLists(listsSorted[i].id,listsSorted[i].title, listsSorted[i].desc, listsSorted[i].due, listsSorted[i].priorStr);
     }
 })
 
@@ -91,24 +91,41 @@ function addNew(id,title,desc,due,prior){
 
 }
 
-function renderLists(title,desc,due,priorStr){
+function renderLists(id,title,desc,due,priorStr){
     const div = document.createElement('div');
+    div.setAttribute('id',id);
     const titleDom = document.createElement('h4');
     const descDom = document.createElement('p');
     const dueDom = document.createElement('p');
     const priorStrDom = document.createElement('p');
+    const remove = document.createElement('button')
+    remove.textContent = "Remove";
 
     main.appendChild(div);
     div.appendChild(titleDom, descDom, dueDom, priorStrDom);
     div.appendChild(descDom);
     div.appendChild(dueDom);
     div.appendChild(priorStrDom);
+    div.appendChild(remove);
 
     div.classList.add('listDiv');
     titleDom.innerHTML = title;
     descDom.innerHTML = desc;
     dueDom.innerHTML = due;
     priorStrDom.innerHTML = priorStr;
+
+    remove.addEventListener('click', () => {
+        
+        const index = listsSorted.findIndex(object => {
+            return object.id === id;
+        });
+        
+        listsSorted.splice(index, 1);
+        const element = document.getElementById(id);
+        element.remove();
+        console.log(listsSorted);
+    });
+
 }
 /*
 button.addEventListener('click', () => {

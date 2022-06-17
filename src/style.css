@@ -16,6 +16,10 @@ body {
 .head {
     grid-area: 1 / 0 / 2 / 0;
     background-color: #38bdf8;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 .body {
@@ -48,4 +52,13 @@ body {
     background-color: white;
     border-radius: 16px;
     margin-right: 16px;
+}
+
+.listDiv {
+    border-bottom: 1px solid lightgrey;
+    margin: 16px
+}
+
+.listDiv p{
+    margin: 0;
 }
