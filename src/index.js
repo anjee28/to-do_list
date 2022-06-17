@@ -1,3 +1,5 @@
+import './normalize.css';
 import './style.css';
+import './script.js';
 
-console.log("test again! and again!")
+
