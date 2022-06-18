@@ -49,6 +49,7 @@ function newProject (id, title, task, taskSorted, active) {
 //Generate Default Project----------------------------------------------------------------------
 projectGenerate('Default');
 document.getElementById('1').setAttribute('class','active');
+projects[0].active = 'active';
 
 taskGenerate('Default', 'Run', 'Run 15KM for One Day', 'today', 'Normal', false);
 taskGenerate('Default', 'Write Code!', 'Code Code Code!', 'today', 'Normal', false);
@@ -86,13 +87,6 @@ function projectGenerate (title){
     renderProjects();
     projectGenerateDOM(id);
 }
-const newProjectInput = document.querySelector('#newProjectInput');
-newProjectInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      projectGenerate(newProjectInput.value);
-      newProjectInput.value = '';
-    }
-});
 
 //Task Generation -------------------------------------------------------------------------------------
 function taskGenerate (project,title,desc,due,priority,done) {
@@ -108,7 +102,40 @@ function taskGenerate (project,title,desc,due,priority,done) {
     renderTasks(index, id, title, desc, due, priority, done) 
 }
 
+//Data retrieval for New task
+
+const newTaskForm = document.getElementById('newTaskForm');
+newTaskForm.addEventListener('submit', () =>{
+    newTaskData();
+})
+
+function newTaskData(){
+    const index = projects.findIndex(object => {
+        return object.active === 'active';
+    });
+    const title = document.getElementById('newTitle');
+    const desc = document.getElementById('newDesc');
+    const due = document.getElementById('newDue');
+    const priority = document.getElementById('priorityNew');
+
+    taskGenerate(projects[index].title, title.value, desc.value, due.value, priority.value, 'false')
+    desc.value = '';
+    newTaskForm.reset();
+}
+
 //--------------------------------DOM RENDERING--------------------------------------------------------
+
+//New Project input textbox
+const newProjectInput = document.querySelector('#newProjectInput');
+newProjectInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      projectGenerate(newProjectInput.value);
+      newProjectInput.value = '';
+    }
+});
+
+
+//Render Projects lists in sidebar
 function renderProjects(){
 
     document.querySelectorAll(".projectList").forEach(el => el.remove());
@@ -120,6 +147,7 @@ function renderProjects(){
         para.classList.add('projectList')
         div.appendChild(para);
         
+        //toggles div visibility for each project
         para.addEventListener('click', () => {
             for (let j = 0; j < projects.length; j++) {
                 projects[j].active = 'inactive';
@@ -127,12 +155,14 @@ function renderProjects(){
                 inactiveDiv.setAttribute('class',projects[j].active);        
             }
             
-            const div = document.getElementById(projects[i].id) 
-            div.setAttribute('class', 'active');
+            const div = document.getElementById(projects[i].id)
+            projects[i].active = 'active';
+            div.setAttribute('class', projects[i].active);
         })
     }      
 }
 
+//Generate Div that contains list of tasks for each projects
 function projectGenerateDOM(id){
     const main = document.getElementById('main')
     const div = document.createElement('div');
@@ -147,6 +177,7 @@ function projectGenerateDOM(id){
     main.appendChild(div);
 }
 
+//Renders the tasks for each project
 function renderTasks(index, id, title, desc, due, priority, done){
     const projectDiv = document.getElementById(projects[index].id);
     const taskDiv = document.createElement('Div')
