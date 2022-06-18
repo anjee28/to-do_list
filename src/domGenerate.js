@@ -17,7 +17,29 @@ head.classList.add('head');
             newInput('text','title','title','Title', '', true, newForm);
             newInput('text','desc','desc','Description', '', true, newForm);
             newInput('datetime-local','due','due','due', '', true, newForm);
-            newInput('number','priority','priority','priority', '', true, newForm);
+            
+            const select = document.createElement('select');
+            select.setAttribute('name', 'priority');
+            select.setAttribute('id', 'priority');
+            select.setAttribute('required', '');
+            newForm.appendChild(select);
+
+                const placeholder = document.createElement('option');
+                placeholder.setAttribute('disabled','');
+                placeholder.setAttribute('selected','');
+                placeholder.innerHTML = 'Priority';
+                select.appendChild(placeholder);
+                newOption('high','High');
+                newOption('medium','medium'); 
+                newOption('low','Low');
+
+                function newOption (value, text) {
+                    const option = document.createElement('option')
+                    option.setAttribute('value',value);
+                    option.innerHTML = text;
+                    select.appendChild(option);
+                }                
+
             newInput('submit','submit','','', 'Submit', false, newForm);
 
     const main = document.createElement('div');
@@ -27,9 +49,10 @@ head.classList.add('head');
 document.body.appendChild(parentContainer);
 parentContainer.appendChild(head);
 parentContainer.appendChild(body);
+body.appendChild(main);
 body.appendChild(sidebar);
 sidebar.appendChild(newForm);
-body.appendChild(main);
+
 
 function newInput(type, name, id, placeholder, value, isRequired, parent) {
     const input = document.createElement('input');
