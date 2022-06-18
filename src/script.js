@@ -76,7 +76,6 @@ function generateId(projOrList) {
     }
 
     return (lastId + 1);
-
 }
 
 //Project Generation -----------------------------------------------------------------------------------
@@ -86,6 +85,13 @@ function projectGenerate (title){
     renderProjects();
     projectGenerateDOM(id);
 }
+const newProjectInput = document.querySelector('#newProjectInput');
+newProjectInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      projectGenerate(newProjectInput.value);
+      newProjectInput.value = '';
+    }
+});
 
 //Task Generation -------------------------------------------------------------------------------------
 function taskGenerate (project,title,desc,due,priority,done) {
@@ -106,7 +112,7 @@ function renderProjects(){
     document.querySelectorAll(".projectList").forEach(el => el.remove());
 
     for(let i = 0; i < projects.length; i++) {
-        const div = document.getElementById('sidebarCenter');
+        const div = document.getElementById('sidebarList');
         const para = document.createElement('p');
         para.innerHTML = projects[i].title;
         para.classList.add('projectList')
@@ -123,9 +129,7 @@ function renderProjects(){
 
             div.setAttribute('class', 'active');
         })
-    }    
-
-    
+    }      
 }
 
 function projectGenerateDOM(id){
@@ -146,3 +150,4 @@ function projectGenerateDOM(id){
 function taskGenerationDOM(){
 
 }
+
