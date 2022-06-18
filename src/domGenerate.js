@@ -15,6 +15,7 @@ generateDiv('body','body',parentContainer);
                 const newProject = document.createElement('input');
                 newProject.setAttribute('type','text');
                 newProject.setAttribute('id','newProjectInput');
+                newProject.setAttribute('placeholder','New Project');
                 sidebarNew.appendChild(newProject);
 
         generateDiv('sidebarBottom','sidebarBottom',sidebar)

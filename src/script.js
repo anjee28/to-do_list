@@ -48,7 +48,7 @@ function newProject (id, title, task, taskSorted, active) {
 
 //Generate Default Project----------------------------------------------------------------------
 projectGenerate('Default');
-projects[0].active = 'active';
+document.getElementById('1').setAttribute('class','active');
 
 taskGenerate('Default', 'Run', 'Run 15KM for One Day', 'today', 'Normal', false);
 taskGenerate('Default', 'Write Code!', 'Code Code Code!', 'today', 'Normal', false);
@@ -57,6 +57,7 @@ projectGenerate('To-Do List TOP');
 
 taskGenerate('To-Do List TOP', 'Projects Feature', 'Users should be able to create new projects and choose which project their todos go into.', 'tommorow', 'High', true)
 taskGenerate('To-Do List TOP', 'Sorting Feature', 'Users should be able to sort their projects and its corresponding tasks', 'tommorow', 'Normal', false)
+
 
 console.log(projects);
 
@@ -100,10 +101,11 @@ function taskGenerate (project,title,desc,due,priority,done) {
     const index = projects.findIndex(object => {
         return object.title === project;
     });
-    
-    const task = newTask(generateId(projects[index].task), title, desc, due, priority, done);
+    const id = generateId(projects[index].task);
+    const task = newTask(id, title, desc, due, priority, done);
 
-    (projects[index].task).push(task); 
+    (projects[index].task).push(task);
+    renderTasks(index, id, title, desc, due, priority, done) 
 }
 
 //--------------------------------DOM RENDERING--------------------------------------------------------
@@ -125,8 +127,7 @@ function renderProjects(){
                 inactiveDiv.setAttribute('class',projects[j].active);        
             }
             
-            const div = document.getElementById(projects[i].id)            
-
+            const div = document.getElementById(projects[i].id) 
             div.setAttribute('class', 'active');
         })
     }      
@@ -136,7 +137,6 @@ function projectGenerateDOM(id){
     const main = document.getElementById('main')
     const div = document.createElement('div');
     div.setAttribute('id',id);
-    div.innerHTML = id;
     
     const index = projects.findIndex(object => {
         return object.id === id;
@@ -147,7 +147,24 @@ function projectGenerateDOM(id){
     main.appendChild(div);
 }
 
-function taskGenerationDOM(){
+function renderTasks(index, id, title, desc, due, priority, done){
+    const projectDiv = document.getElementById(projects[index].id);
+    const taskDiv = document.createElement('Div')
+    taskDiv.classList.add('taskdiv');
+    taskDiv.setAttribute('id',projects[index].title + '-' + id)
+    projectDiv.appendChild(taskDiv);
+    childGenerate(title,'title');
+    childGenerate(desc,'desc');
+    childGenerate(due,'due');
+    childGenerate(priority,'priority');
+    childGenerate(done,'done');
 
+    function childGenerate(text,className){
+        const par = document.createElement('p');
+        par.setAttribute('id',projects[index].title + '-'+ id);
+        par.classList.add(className);
+        par.innerHTML = text;
+        taskDiv.appendChild(par);
+    }
 }
 
