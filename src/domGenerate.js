@@ -11,12 +11,13 @@ generateDiv('sidebarTitle','sidebarTitle',sidebar)
 generateDiv('sidebarCenter','sidebarCenter',sidebar)
 generateDiv('sidebarBottom','sidebarBottom',sidebar)
 
+document.getElementById('sidebarTitle').innerHTML = "PROJECTS"
+
 function generateDiv(id, className, parent){
     const div = document.createElement('div');
     div.classList.add(className);
     div.setAttribute('id',id);
     parent.appendChild(div);
-    console.log(id)
 }
 
 /* 

@@ -28,7 +28,7 @@ function newTask (id,title, desc, due, priority, done) {
 }
 
 //Project Factory ------------------------------------------------------------------------------------
-function newProject (id, title, task, taskSorted) {
+function newProject (id, title, task, taskSorted, active) {
     
     const addToProjects = function() {
         projects.push(this);
@@ -39,6 +39,7 @@ function newProject (id, title, task, taskSorted) {
         title,
         task,
         taskSorted,
+        active,
         addToProjects
     }
 
@@ -47,11 +48,12 @@ function newProject (id, title, task, taskSorted) {
 
 //Generate Default Project----------------------------------------------------------------------
 projectGenerate('Default');
+projects[0].active = 'active';
 
 taskGenerate('Default', 'Run', 'Run 15KM for One Day', 'today', 'Normal', false);
 taskGenerate('Default', 'Write Code!', 'Code Code Code!', 'today', 'Normal', false);
 
-projectGenerate('To-Do List');
+projectGenerate('To-Do List Project - TOP');
 
 taskGenerate('To-Do List', 'Projects Feature', 'Users should be able to create new projects and choose which project their todos go into.', 'tommorow', 'High', true)
 taskGenerate('To-Do List', 'Sorting Feature', 'Users should be able to sort their projects and its corresponding tasks', 'tommorow', 'Normal', false)
@@ -74,11 +76,15 @@ function generateId(projOrList) {
     }
 
     return (lastId + 1);
+
 }
 
 //Project Generation -----------------------------------------------------------------------------------
 function projectGenerate (title){
-    newProject(generateId(projects), title, []).addToProjects();
+    const id = generateId(projects)
+    newProject(id, title, [], [], 'inactive').addToProjects();
+    renderProjects();
+    projectGenerateDOM(id);
 }
 
 //Task Generation -------------------------------------------------------------------------------------
@@ -92,6 +98,35 @@ function taskGenerate (project,title,desc,due,priority,done) {
     const task = newTask(generateId(projects[index].task), title, desc, due, priority, done);
 
     (projects[index].task).push(task); 
+    renderProjects();
 }
 
 //--------------------------------DOM RENDERING--------------------------------------------------------
+function renderProjects(){
+
+    document.querySelectorAll(".projectList").forEach(el => el.remove());
+
+    for(let i = 0; i < projects.length; i++) {
+        const div = document.getElementById('sidebarCenter');
+        const para = document.createElement('p');
+        para.innerHTML = projects[i].title;
+        para.classList.add('projectList')
+        div.appendChild(para);
+        console.log(para)
+    }    
+}
+
+
+function projectGenerateDOM(id){
+    const main = document.getElementById('main')
+    const div = document.createElement('div');
+    div.setAttribute('id',id);
+    
+    const index = projects.findIndex(object => {
+        return object.id === id;
+    });
+
+    console.log(main);
+    div.classList.add(projects[index].active);
+    main.appendChild(div)
+}
