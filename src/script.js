@@ -53,10 +53,10 @@ projects[0].active = 'active';
 taskGenerate('Default', 'Run', 'Run 15KM for One Day', 'today', 'Normal', false);
 taskGenerate('Default', 'Write Code!', 'Code Code Code!', 'today', 'Normal', false);
 
-projectGenerate('To-Do List Project - TOP');
+projectGenerate('To-Do List TOP');
 
-taskGenerate('To-Do List', 'Projects Feature', 'Users should be able to create new projects and choose which project their todos go into.', 'tommorow', 'High', true)
-taskGenerate('To-Do List', 'Sorting Feature', 'Users should be able to sort their projects and its corresponding tasks', 'tommorow', 'Normal', false)
+taskGenerate('To-Do List TOP', 'Projects Feature', 'Users should be able to create new projects and choose which project their todos go into.', 'tommorow', 'High', true)
+taskGenerate('To-Do List TOP', 'Sorting Feature', 'Users should be able to sort their projects and its corresponding tasks', 'tommorow', 'Normal', false)
 
 console.log(projects);
 
@@ -98,7 +98,6 @@ function taskGenerate (project,title,desc,due,priority,done) {
     const task = newTask(generateId(projects[index].task), title, desc, due, priority, done);
 
     (projects[index].task).push(task); 
-    renderProjects();
 }
 
 //--------------------------------DOM RENDERING--------------------------------------------------------
@@ -112,15 +111,28 @@ function renderProjects(){
         para.innerHTML = projects[i].title;
         para.classList.add('projectList')
         div.appendChild(para);
-        console.log(para)
-    }    
-}
+        
+        para.addEventListener('click', () => {
+            for (let j = 0; j < projects.length; j++) {
+                projects[j].active = 'inactive';
+                let inactiveDiv = document.getElementById(projects[j].id);
+                inactiveDiv.setAttribute('class',projects[j].active);        
+            }
+            
+            const div = document.getElementById(projects[i].id)            
 
+            div.setAttribute('class', 'active');
+        })
+    }    
+
+    
+}
 
 function projectGenerateDOM(id){
     const main = document.getElementById('main')
     const div = document.createElement('div');
     div.setAttribute('id',id);
+    div.innerHTML = id;
     
     const index = projects.findIndex(object => {
         return object.id === id;
@@ -128,5 +140,9 @@ function projectGenerateDOM(id){
 
     console.log(main);
     div.classList.add(projects[index].active);
-    main.appendChild(div)
+    main.appendChild(div);
+}
+
+function taskGenerationDOM(){
+
 }

@@ -70,6 +70,7 @@ outline: 0;
     background-color: white;
     border-radius: 16px;
     margin-right: 16px;
+    padding: 20px;
 }
 
 .listDiv {
@@ -91,4 +92,12 @@ outline: 0;
 .sidebarCenter p:hover{
     color: #2eb0e8;
     cursor: pointer;
+}
+
+.main .active {
+    display: block;
+}
+
+.main .inactive {
+    display: none;
 }
