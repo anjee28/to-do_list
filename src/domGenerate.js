@@ -1,15 +1,44 @@
 const parentContainer = document.createElement('div');
-parentContainer.classList.add('parentContainer');
+parentContainer.classList.add('parentContainer')
+parentContainer.setAttribute('id','parentContainer');
+document.body.appendChild(parentContainer);
 
+generateDiv('head','head',parentContainer);
+generateDiv('body','body',parentContainer);
+generateDiv('sidebar','sidebar',body);
+generateDiv('main','main',body);
+generateDiv('sidebarTitle','sidebarTitle',sidebar)
+generateDiv('sidebarCenter','sidebarCenter',sidebar)
+generateDiv('sidebarBottom','sidebarBottom',sidebar)
+
+function generateDiv(id, className, parent){
+    const div = document.createElement('div');
+    div.classList.add(className);
+    div.setAttribute('id',id);
+    parent.appendChild(div);
+    console.log(id)
+}
+
+/* 
 const head = document.createElement('div');
 head.classList.add('head');
 
-    const body = document.createElement('div');
-    body.classList.add('body');
+const body = document.createElement('div');
+body.classList.add('body');
 
     const sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
 
+        const titleDiv = document.createElement('div');
+        sidebar.classList.add('sidebar');
+
+        generateElement('h6','PROJECTS',sidebar);
+
+        function generateElement(tag,inner,parent) {
+            const element = document.createElement(tag);
+            element.innerHTML = inner;
+            parent.appendChild(element);
+        }
         const newForm = document.createElement('form');
         newForm.setAttribute('onsubmit', 'return false');
         newForm.setAttribute('id', 'newForm');
@@ -46,12 +75,13 @@ head.classList.add('head');
     main.classList.add('main');
     main.setAttribute('id','main');
 
-document.body.appendChild(parentContainer);
+
 parentContainer.appendChild(head);
 parentContainer.appendChild(body);
 body.appendChild(main);
 body.appendChild(sidebar);
 sidebar.appendChild(newForm);
+
 
 
 function newInput(type, name, id, placeholder, value, isRequired, parent) {
@@ -67,4 +97,4 @@ function newInput(type, name, id, placeholder, value, isRequired, parent) {
     parent.appendChild(input);
 }
 
-
+*/
