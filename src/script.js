@@ -112,7 +112,7 @@ function taskGenerate (project,title,desc,due,priority,done) {
 
 
     projects[index].taskSorted = projects[index].task.slice().sort((a, b) => {
-        return a.dueInt - b.dueIn;
+        return a.dueInt - b.dueInt;
     });
 
     projects[index].taskSorted = projects[index].taskSorted.slice().sort((a, b) => {
@@ -126,10 +126,7 @@ function taskGenerate (project,title,desc,due,priority,done) {
     */
 
     displayTasks();
-
 }
-
-
 
 //Data retrieval for New task
 
@@ -163,7 +160,6 @@ newProjectInput.addEventListener('keypress', function (e) {
     }
 });
 
-
 //Render Projects lists in sidebar
 function renderProjects(){
 
@@ -194,9 +190,11 @@ function renderProjects(){
 //Generate Div that contains list of tasks for each projects
 function projectGenerateDOM(id){
     const main = document.getElementById('main')
-    const div = document.createElement('div');
-    div.setAttribute('id',id);
+    const projectTitle = document.createElement('div');
+    projectTitle.classList.add('projectTitle');
     
+    const div = document.createElement('div');
+    div.setAttribute('id',id);    
     const index = projects.findIndex(object => {
         return object.id === id;
     });
@@ -204,6 +202,8 @@ function projectGenerateDOM(id){
     console.log(main);
     div.classList.add(projects[index].active);
     main.appendChild(div);
+    div.appendChild(projectTitle);
+    projectTitle.innerHTML = projects[index].title.toUpperCase();
 }
 
 //Renders the tasks
@@ -217,14 +217,48 @@ function renderTasks(index, id, title, desc, due, priority, done){
     childGenerate(desc,'desc');
     childGenerate(due,'due');
     childGenerate(priority, priority);
-    childGenerate(done,'done');
+  
 
     function childGenerate(text,className){
         const par = document.createElement('p');
         par.classList.add(className);
         par.innerHTML = text;
         taskDiv.appendChild(par);
+
+        //expands description when clicked
+        if (className === 'desc') {
+            par.addEventListener('click', () => {
+                par.classList.toggle('expanded');
+            })
+        }
     }
+    //Done Check Box
+
+    const checkDiv = document.createElement('div');
+    checkDiv.classList.add('done');
+    checkDiv.innerHTML = "Done: "
+    const check = document.createElement('input');
+    check.classList.add('checkBox');
+    check.setAttribute('type','checkbox');
+    taskDiv.appendChild(checkDiv);
+    checkDiv.appendChild(check);
+    
+    const index2 = projects[index].task.findIndex(object => {
+        return object.id === id;
+    });
+
+    check.addEventListener('click', () => {
+
+        if(check.checked === false) {
+            projects[index].task[index2].done = false;
+            console.log(projects[index].task[index2].done);
+            
+        } else if(check.checked === true) {
+            projects[index].task[index2].done = true;
+            console.log(projects[index].task[index2].done);
+        }
+        
+    })
 }
 
 function displayTasks(){
@@ -253,4 +287,7 @@ function removeElementsByClass(className){
         elements[0].parentNode.removeChild(elements[0]);
     }
 }
+
+
+
 
