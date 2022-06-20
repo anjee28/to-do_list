@@ -16,13 +16,14 @@ const projects = (() => {
 
 //###################----------Task Factory ------------------###########################################
 
-function newTask (id,title, desc, due, priority, priorityInt, done) {
+function newTask (id,title, desc, due, dueInt, priority, priorityInt, done) {
 
     let task = {
         id,
         title,
         desc,
         due,
+        dueInt,
         priority,
         priorityInt,
         done,
@@ -99,15 +100,14 @@ function taskGenerate (project,title,desc,due,priority,done) {
             priorityInt = 1;
             break;
         case 'Normal':
-        priorityInt = 2;
-        break;
+            priorityInt = 2;
+            break;
         case 'Low':
-        priorityInt = 3;
-        break;
+            priorityInt = 3;
+            break;
     }
 
-    const task = newTask(id, title, desc, due, priority, priorityInt, done);
-    console.log(projects);
+    const task = newTask(id, title, desc, due, Date.parse(due), priority, priorityInt, done);
     (projects[index].task).push(task);
 
     
@@ -138,6 +138,7 @@ function taskGenerate (project,title,desc,due,priority,done) {
         }
         if (i > 100){break;}
     }
+    console.log(Date.parse(due));
 }
 
 
