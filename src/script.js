@@ -16,7 +16,7 @@ const projects = (() => {
 
 //###################----------Task Factory ------------------###########################################
 
-function newTask (id,title, desc, due, priority, done) {
+function newTask (id,title, desc, due, priority, priorityInt, done) {
 
     let task = {
         id,
@@ -24,6 +24,7 @@ function newTask (id,title, desc, due, priority, done) {
         desc,
         due,
         priority,
+        priorityInt,
         done,
     }    
 
@@ -85,16 +86,61 @@ function projectGenerate (title){
 //Task Generation -------------------------------------------------------------------------------------
 function taskGenerate (project,title,desc,due,priority,done) {
 
-    //index serach method
+    //index search method
     const index = projects.findIndex(object => {
         return object.title === project;
     });
     const id = generateId(projects[index].task);
-    const task = newTask(id, title, desc, due, priority, done);
 
+    //Convert priority into integer to be used for sorting
+    let priorityInt = 0;
+    switch(priority){
+        case 'High':
+            priorityInt = 1;
+            break;
+        case 'Normal':
+        priorityInt = 2;
+        break;
+        case 'Low':
+        priorityInt = 3;
+        break;
+    }
+
+    const task = newTask(id, title, desc, due, priority, priorityInt, done);
+    console.log(projects);
     (projects[index].task).push(task);
-    renderTasks(index, id, title, desc, due, priority, done) 
+
+    
+    projects[index].taskSorted = projects[index].task.slice().sort((a, b) => {
+        return a.priorityInt - b.priorityInt;
+    });
+    
+    /* ------- Array sorting refrence-----
+    const listsSorted = lists.slice().sort((a, b) => {
+        return a.priority - b.priority;
+    });
+    */
+
+    removeElementsByClass('taskdiv');
+
+    for(let i = 0; i < projects.length; i++){
+        for(let j = 0; j < projects[i].task.length; j++){
+            //index = project index, id = task id
+            renderTasks(i,
+                projects[i].taskSorted[j].id,
+                projects[i].taskSorted[j].title,
+                projects[i].taskSorted[j].desc,
+                projects[i].taskSorted[j].due,
+                projects[i].taskSorted[j].priority,
+                projects[i].taskSorted[j].done);
+
+            if (j > 100){break;}
+        }
+        if (i > 100){break;}
+    }
 }
+
+
 
 //Data retrieval for New task
 
@@ -193,3 +239,9 @@ function renderTasks(index, id, title, desc, due, priority, done){
     }
 }
 
+function removeElementsByClass(className){
+    const elements = document.getElementsByClassName(className);
+    while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
