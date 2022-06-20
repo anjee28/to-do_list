@@ -185,6 +185,7 @@ body {
     text-overflow:unset;
     white-space: pre-wrap;
     color: black;
+    transition: .5s;
 }
 
 .taskdiv .due{

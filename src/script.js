@@ -7,9 +7,32 @@ import './domGenerate.js';
 #####################------------LOGIC CODES------------------###################################
 ###################################################################################################*/
 
+//WINDOW ONLOAD EVENT
+window.addEventListener('load', (event) => {
+    console.log('page is fully loaded');
+    if (localStorage.getItem('projects') !== null) {
+        projects = JSON.parse(localStorage.getItem('projects'));
+        console.log(JSON.parse(localStorage.getItem('projects')));
+        console.log(projects);
+        renderProjects();
+        
+        for (let i = 0; i < projects.length; i++) {
+            projectGenerateDOM(projects[i].id);
+        }
+        displayTasks();
+    }
+    else {
+        //Generate Default Project----------------------------------------------------------------------
+        projectGenerate('Default');
+        document.getElementById('1').setAttribute('class','active');
+        projects[0].active = 'active';
+        console.log('Local storage not found')
+    }
+  });
+
 //###################-------------Projects ------------------######################################
 
-const projects = (() => {
+let projects = (() => {
     const A = [];
     return A;
 })();
@@ -51,12 +74,8 @@ function newProject (id, title, task, taskSorted, active) {
     return project;
 }
 
-//Generate Default Project----------------------------------------------------------------------
-projectGenerate('Default');
-document.getElementById('1').setAttribute('class','active');
-projects[0].active = 'active';
 
-console.log(projects);
+
 
 //Generate id Function ---------------------------------------------------------------------------
 function generateId(projOrList) {
@@ -80,6 +99,7 @@ function generateId(projOrList) {
 function projectGenerate (title){
     const id = generateId(projects)
     newProject(id, title, [], [], 'inactive').addToProjects();
+    localStorage.setItem('projects',JSON.stringify(projects));
     renderProjects();
     projectGenerateDOM(id);
 }
@@ -111,6 +131,15 @@ function taskGenerate (project,title,desc,due,priority,done) {
     (projects[index].task).push(task);
 
 
+    sortTask(index);
+    
+
+    displayTasks();
+    localStorage.setItem('projects',JSON.stringify(projects));
+}
+
+function sortTask(index) {
+
     projects[index].taskSorted = projects[index].task.slice().sort((a, b) => {
         return a.dueInt - b.dueInt;
     });
@@ -118,14 +147,6 @@ function taskGenerate (project,title,desc,due,priority,done) {
     projects[index].taskSorted = projects[index].taskSorted.slice().sort((a, b) => {
         return a.priorityInt - b.priorityInt;
     });
-    
-    /* ------- Array sorting refrence-----
-    const listsSorted = lists.slice().sort((a, b) => {
-        return a.priority - b.priority;
-    });
-    */
-
-    displayTasks();
 }
 
 //Data retrieval for New task
@@ -199,7 +220,6 @@ function projectGenerateDOM(id){
         return object.id === id;
     });
 
-    console.log(main);
     div.classList.add(projects[index].active);
     main.appendChild(div);
     div.appendChild(projectTitle);
@@ -218,7 +238,6 @@ function renderTasks(index, id, title, desc, due, priority, done){
     childGenerate(due,'due');
     childGenerate(priority, priority);
   
-
     function childGenerate(text,className){
         const par = document.createElement('p');
         par.classList.add(className);
@@ -251,11 +270,9 @@ function renderTasks(index, id, title, desc, due, priority, done){
 
         if(check.checked === false) {
             projects[index].task[index2].done = false;
-            console.log(projects[index].task[index2].done);
             
         } else if(check.checked === true) {
             projects[index].task[index2].done = true;
-            console.log(projects[index].task[index2].done);
         }
         
     })
