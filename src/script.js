@@ -1,3 +1,6 @@
+//Push to send it to the gh-pages branch on GitHub.
+//git subtree push --prefix dist origin gh-pages
+
 //DOM GENERATION
 import './domGenerate.js';
 /*################################################################################################
@@ -50,15 +53,6 @@ function newProject (id, title, task, taskSorted, active) {
 projectGenerate('Default');
 document.getElementById('1').setAttribute('class','active');
 projects[0].active = 'active';
-
-taskGenerate('Default', 'Run', 'Run 15KM for One Day', 'today', 'Normal', false);
-taskGenerate('Default', 'Write Code!', 'Code Code Code!', 'today', 'Normal', false);
-
-projectGenerate('To-Do List TOP');
-
-taskGenerate('To-Do List TOP', 'Projects Feature', 'Users should be able to create new projects and choose which project their todos go into.', 'tommorow', 'High', true)
-taskGenerate('To-Do List TOP', 'Sorting Feature', 'Users should be able to sort their projects and its corresponding tasks', 'tommorow', 'Normal', false)
-
 
 console.log(projects);
 
