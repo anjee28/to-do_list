@@ -4,6 +4,7 @@ body {
     font-family: 'Roboto';
     height: 100vh;
     background-color: lightgrey;
+    line-height: 1;
 }
 
 .parentContainer {
@@ -174,9 +175,23 @@ body {
     grid-area: 3 / 1 / 4 / 2;
 }
 
-.taskdiv .priority{
+.taskdiv .High,
+.taskdiv .Normal,
+.taskdiv .Low{
     grid-area: 1 / 2 / 2 / 3;
     text-align: right;
+    color: #1d82ad;
+    font-weight: 700;
+}
+
+.taskdiv .High{
+    color: red;
+
+}
+
+.taskdiv .Normal{
+    color: orange;
+
 }
 
 .taskdiv .done{

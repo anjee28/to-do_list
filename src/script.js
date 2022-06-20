@@ -125,24 +125,8 @@ function taskGenerate (project,title,desc,due,priority,done) {
     });
     */
 
-    removeElementsByClass('taskdiv');
+    displayTasks();
 
-    for(let i = 0; i < projects.length; i++){
-        for(let j = 0; j < projects[i].task.length; j++){
-            //index = project index, id = task id
-            renderTasks(i,
-                projects[i].taskSorted[j].id,
-                projects[i].taskSorted[j].title,
-                projects[i].taskSorted[j].desc,
-                projects[i].taskSorted[j].due,
-                projects[i].taskSorted[j].priority,
-                projects[i].taskSorted[j].done);
-
-            if (j > 100){break;}
-        }
-        if (i > 100){break;}
-    }
-    console.log(Date.parse(due));
 }
 
 
@@ -222,7 +206,7 @@ function projectGenerateDOM(id){
     main.appendChild(div);
 }
 
-//Renders the tasks for each project
+//Renders the tasks
 function renderTasks(index, id, title, desc, due, priority, done){
     const projectDiv = document.getElementById(projects[index].id);
     const taskDiv = document.createElement('Div')
@@ -232,15 +216,34 @@ function renderTasks(index, id, title, desc, due, priority, done){
     childGenerate(title,'title');
     childGenerate(desc,'desc');
     childGenerate(due,'due');
-    childGenerate(priority,'priority');
+    childGenerate(priority, priority);
     childGenerate(done,'done');
 
     function childGenerate(text,className){
         const par = document.createElement('p');
-        par.setAttribute('id',projects[index].title + '-'+ id);
         par.classList.add(className);
         par.innerHTML = text;
         taskDiv.appendChild(par);
+    }
+}
+
+function displayTasks(){
+
+    removeElementsByClass('taskdiv');
+    for(let i = 0; i < projects.length; i++){
+        for(let j = 0; j < projects[i].task.length; j++){
+            //index = project index, id = task id
+            renderTasks(i,
+                projects[i].taskSorted[j].id,
+                projects[i].taskSorted[j].title,
+                projects[i].taskSorted[j].desc,
+                projects[i].taskSorted[j].due,
+                projects[i].taskSorted[j].priority,
+                projects[i].taskSorted[j].done);
+
+            if (j > 100){break;}
+        }
+        if (i > 100){break;}
     }
 }
 
@@ -250,3 +253,4 @@ function removeElementsByClass(className){
         elements[0].parentNode.removeChild(elements[0]);
     }
 }
+
