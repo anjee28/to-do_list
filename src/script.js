@@ -110,8 +110,12 @@ function taskGenerate (project,title,desc,due,priority,done) {
     const task = newTask(id, title, desc, due, Date.parse(due), priority, priorityInt, done);
     (projects[index].task).push(task);
 
-    
+
     projects[index].taskSorted = projects[index].task.slice().sort((a, b) => {
+        return a.dueInt - b.dueIn;
+    });
+
+    projects[index].taskSorted = projects[index].taskSorted.slice().sort((a, b) => {
         return a.priorityInt - b.priorityInt;
     });
     
